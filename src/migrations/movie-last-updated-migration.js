@@ -28,8 +28,13 @@ require("dotenv").config()
     // check that its type is a string
     // a projection is not required, but may help reduce the amount of data sent
     // over the wire!
-    const predicate = { somefield: { $someOperator: true } }
-    const projection = {}
+    const predicate = {
+      $and: [
+        { lastupdated: { $exists: true } },
+        { lastupdated: { $tyep: "string" } },
+      ],
+    }
+    const projection = { title: 1 }
     const cursor = await mflix
       .collection("movies")
       .find(predicate, projection)
